@@ -89,9 +89,22 @@ public class WishListService {
     }
 
     public List<WishListDto> findAll() {
-        return wishListRepository.listAll()
+        return wishListRepository.findAll()
                 .stream()
                 .map(it -> entityToDto(it))
                 .collect(Collectors.toList());
+    }
+
+    public void delete(int index) {
+        wishListRepository.deleteById(index);
+    }
+
+    public void addVisit(int index){
+        var wishItem = wishListRepository.findById(index); // 원하는 index 찾아오기
+        if(wishItem.isPresent()) {   // wishItem이 존재하는지 확인
+            var item = wishItem.get();
+            item.setVisit(true);
+            item.setVisitCount(item.getVisitCount() + 1);
+        }
     }
 }
