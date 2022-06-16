@@ -100,11 +100,16 @@ public class WishListService {
     }
 
     public void addVisit(int index){
-        var wishItem = wishListRepository.findById(index); // 원하는 index 찾아오기
-        if(wishItem.isPresent()) {   // wishItem이 존재하는지 확인
-            var item = wishItem.get();
-            item.setVisit(true);
-            item.setVisitCount(item.getVisitCount() + 1);
-        }
+        var wishItem = wishListRepository.findById(index);
+        wishItem.ifPresent(it -> {
+            it.setVisit(true);
+            it.setVisitCount(it.getVisitCount()+1);
+        });
+//        var wishItem = wishListRepository.findById(index); // 원하는 index 찾아오기
+//        if(wishItem.isPresent()) {   // wishItem이 존재하는지 확인
+//            var item = wishItem.get();
+//            item.setVisit(true);
+//            item.setVisitCount(item.getVisitCount() + 1);
+//        }
     }
 }
